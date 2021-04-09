@@ -132,7 +132,7 @@ class Team_Seeder extends Seeder
         ],[
             "description" => "Admin Team",
             "group" => "Admin",
-            "order" => 4,
+            "order" => 5,
             "lock" => true,
         ]);
 
