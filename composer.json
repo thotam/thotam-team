@@ -1,0 +1,56 @@
+{
+    "name": "thotam/thotam-team",
+    "description": "Team manager",
+    "keywords": [
+        "thotam",
+        "thotam-team"
+    ],
+    "homepage": "https://github.com/thotam/thotam-team",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "thotam",
+            "email": "thanhtamtqno1@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "illuminate/console": "^8.0",
+        "illuminate/contracts": "^8.0",
+        "illuminate/support": "^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Thotam\\ThotamTeam\\": "src",
+            "Thotam\\ThotamTeam\\Database\\Seeders\\": "database/seeders"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Thotam\\ThotamTeam\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Thotam\\ThotamTeam\\ThotamTeamServiceProvider"
+            ],
+            "aliases": {
+                "ThotamTeam": "Thotam\\ThotamTeam\\ThotamTeamFacade"
+            }
+        }
+    }
+}
