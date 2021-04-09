@@ -17,13 +17,25 @@ composer require thotam/thotam-team
 
 ## Usage
 
-``` php
-// Usage description here
+```php
+Add "Thotam\ThotamPlus\Traits\ThoTamPlusTrait" to "Thotam\ThotamHr\Models\HR" Models
+```
+
+#### Next, you must migrate your database:
+
+```php
+php artisan migrate
+```
+
+#### Next, you should run seed:
+
+```php
+php artisan db:seed
 ```
 
 ### Testing
 
-``` bash
+```bash
 composer test
 ```
 
@@ -41,8 +53,8 @@ If you discover any security related issues, please email thanhtamtqno1@gmail.co
 
 ## Credits
 
-- [thotam](https://github.com/thotam)
-- [All Contributors](../../contributors)
+-   [thotam](https://github.com/thotam)
+-   [All Contributors](../../contributors)
 
 ## License
 
