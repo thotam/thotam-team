@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNhomThanhvienTablesTable extends Migration
+class CreateNhomThanhviensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateNhomThanhvienTablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('nhom_thanhvien_tables', function (Blueprint $table) {
+        Schema::create('nhom_thanhviens', function (Blueprint $table) {
             $table->string('hr_key', 10);
             $table->foreign('hr_key')->references('key')->on('hrs')->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('nhom_id')->unsigned();
@@ -29,6 +29,6 @@ class CreateNhomThanhvienTablesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nhom_thanhvien_tables');
+        Schema::dropIfExists('nhom_thanhviens');
     }
 }

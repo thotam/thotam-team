@@ -50,7 +50,7 @@ class Nhom extends Model
      */
     public function nhom_has_quanly(): BelongsToMany
     {
-        return $this->belongsToMany(HR::class, 'nhom_quanly_table', 'nhom_id', 'hr_key');
+        return $this->belongsToMany(HR::class, 'nhom_quanlys', 'nhom_id', 'hr_key');
     }
 
     /**
@@ -60,6 +60,16 @@ class Nhom extends Model
      */
     public function nhom_has_thanhvien(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, 'nhom_thanhvien_table', 'nhom_id', 'hr_key');
+        return $this->belongsToMany(HR::class, 'nhom_thanhviens', 'nhom_id', 'hr_key');
+    }
+
+    /**
+     * The truc_thuoc_nhoms that belong to the Nhom
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function truc_thuoc_nhoms(): BelongsToMany
+    {
+        return $this->belongsToMany(Nhom::class, 'nhom_tructhuocs', 'nhom_truc_thuoc_id', 'nhom_quan_ly_id');
     }
 }

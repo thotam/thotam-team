@@ -15,7 +15,8 @@ class CreateNhomsTable extends Migration
     {
         Schema::create('nhoms', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 255);
+            $table->longText('full_name')->nullable()->default(null);
+            $table->longText('name')->nullable()->default(null);
             $table->bigInteger('chinhanh_id')->unsigned()->nullable()->default(null);
             $table->bigInteger('kenh_kinh_doanh_id')->unsigned()->nullable()->default(null);
             $table->bigInteger('nhom_san_pham_id')->unsigned()->nullable()->default(null);

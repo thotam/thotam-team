@@ -2,7 +2,9 @@
 
 namespace Thotam\ThotamTeam;
 
+use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
+use Thotam\ThotamTeam\Http\Livewire\TeamLivewire;
 
 class ThotamTeamServiceProvider extends ServiceProvider
 {
@@ -15,9 +17,9 @@ class ThotamTeamServiceProvider extends ServiceProvider
          * Optional methods to load your package assets
          */
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'thotam-team');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'thotam-team');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'thotam-team');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/routes.php');
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -63,5 +65,9 @@ class ThotamTeamServiceProvider extends ServiceProvider
         $this->app->singleton('thotam-team', function () {
             return new ThotamTeam;
         });
+
+        if (class_exists(Livewire::class)) {
+            Livewire::component('thotam-team::team-livewire', TeamLivewire::class);
+        }
     }
 }
