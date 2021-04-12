@@ -18,7 +18,7 @@ composer require thotam/thotam-team
 ## Usage
 
 ```php
-Add "Thotam\ThotamPlus\Traits\ThoTamPlusTrait" to "Thotam\ThotamHr\Models\HR" Models
+Add "Thotam\ThotamTeam\Traits\HasNhomTrait" to "Thotam\ThotamHr\Models\HR" Models
 ```
 
 #### Next, you must migrate your database:
