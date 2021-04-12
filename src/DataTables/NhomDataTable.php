@@ -48,6 +48,21 @@ class NhomDataTable extends DataTable
                 $Action_Icon.="</div>";
 
                 return $Action_Icon;
+            })
+            ->editColumn('truc_thuoc_nhoms.full_name', function ($query) {
+                return implode(", ", $query->truc_thuoc_nhoms->pluck("full_name")->toArray());
+            })
+            ->editColumn('nhom_has_quanlys.hoten', function ($query) {
+                return implode(", ", $query->nhom_has_quanlys->pluck("hoten")->toArray());
+            })
+            ->editColumn('active', function ($query) {
+                if ($query->active === 0) {
+                    return "Đã vô hiệu hóa";
+                } elseif (!!!$query->active) {
+                    return "Chưa kích hoạt";
+                } else {
+                    return "Đang hoạt động";
+                }
             });
     }
 
@@ -65,7 +80,7 @@ class NhomDataTable extends DataTable
             $query->orderBy('order', 'asc');
         };
 
-        return $query;
+        return $query->with(["phan_loai:id,name", "chinhanh:id,name", "kenh_kinh_doanh:id,name", "nhom_san_pham:id,name", "truc_thuoc_nhoms:id,full_name" ]);
     }
 
     /**
@@ -112,10 +127,98 @@ class NhomDataTable extends DataTable
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                  ->addClass('text-center')
+                  ->title("")
+                  ->footer(""),
+            Column::make("full_name")
+                  ->title("Tên nhóm")
+                  ->width(200)
+                  ->searchable(true)
+                  ->orderable(true)
+                  ->footer("Tên nhóm"),
+            Column::make("chinhanh.name")
+                  ->title("Chi nhánh")
+                  ->width(20)
+                  ->searchable(false)
+                  ->orderable(false)
+                  ->render("function() {
+                        if (!!data) {
+                            return data;
+                        } else {
+                            return null;
+                        }
+                    }")
+                  ->footer("Chi nhánh"),
+            Column::make("phan_loai.name")
+                  ->title("Phân loại")
+                  ->width(20)
+                  ->searchable(false)
+                  ->orderable(false)
+                  ->render("function() {
+                        if (!!data) {
+                            return data;
+                        } else {
+                            return null;
+                        }
+                    }")
+                  ->footer("Phân loại"),
+            Column::make("kenh_kinh_doanh.name")
+                  ->title("Kênh kinh doanh")
+                  ->width(20)
+                  ->searchable(false)
+                  ->orderable(false)
+                  ->render("function() {
+                        if (!!data) {
+                            return data;
+                        } else {
+                            return null;
+                        }
+                    }")
+                  ->footer("Kênh kinh doanh"),
+            Column::make("nhom_san_pham.name")
+                  ->title("Nhóm sản phẩm")
+                  ->width(20)
+                  ->searchable(false)
+                  ->orderable(false)
+                  ->render("function() {
+                        if (!!data) {
+                            return data;
+                        } else {
+                            return null;
+                        }
+                    }")
+                  ->footer("Nhóm sản phẩm"),
+            Column::make("nhom_has_quanlys.hoten")
+                  ->title("Quản lý")
+                  ->width(20)
+                  ->searchable(false)
+                  ->orderable(false)
+                  ->render("function() {
+                        if (!!data) {
+                            return data;
+                        } else {
+                            return null;
+                        }
+                    }")
+                  ->footer("Quản lý"),
+            Column::make("truc_thuoc_nhoms.full_name")
+                  ->title("Trực thuộc nhóm")
+                  ->width(20)
+                  ->searchable(false)
+                  ->orderable(false)
+                  ->render("function() {
+                        if (!!data) {
+                            return data;
+                        } else {
+                            return null;
+                        }
+                    }")
+                  ->footer("Trực thuộc nhóm"),
+            Column::make("active")
+                  ->title("Trạng thái")
+                  ->searchable(false)
+                  ->orderable(false)
+                  ->footer("Trạng thái"),
         ];
     }
 
