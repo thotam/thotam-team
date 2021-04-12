@@ -19,4 +19,9 @@
             });
         </script>
     @endpush
+
+    <!-- Style -->
+    @push('styles')
+        @include('thotam-team::livewire.team.sub.style')
+    @endpush
 </div>
