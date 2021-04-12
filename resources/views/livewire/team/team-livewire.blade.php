@@ -1,5 +1,5 @@
 @php
-    $quanly_arrays = Thotam\ThotamHr\Models\HR::orderBy("key")->select("key", "hoten")->get()->toArray();
+    $nhansu_arrays = Thotam\ThotamHr\Models\HR::orderBy("key")->select("key", "hoten")->get()->toArray();
 @endphp
 
 <div>
@@ -8,6 +8,7 @@
 
     <!-- Incluce các modal -->
     @include('thotam-team::livewire.team.modal.add_edit_modal')
+    @include('thotam-team::livewire.team.modal.set_team_member_modal')
 
     <!-- Scripts -->
     @push('livewires')

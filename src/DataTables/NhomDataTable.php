@@ -34,7 +34,21 @@ class NhomDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'nhom.action');
+            ->addColumn('action', function ($query) {
+                $Action_Icon="<div class='action-div icon-4 px-0 mx-1 d-flex justify-content-around text-center'>";
+
+                if ($this->hr->can("edit-team")) {
+                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' thotam-livewire-method='edit_team' thotam-model-id='$query->id'><i class='text-indigo fas fa-edit'></i></div>";
+                }
+
+                if ($this->hr->can("set-member-team")) {
+                    $Action_Icon.="<div class='col action-icon-w-50 action-icon' thotam-livewire-method='set_member_team' thotam-model-id='$query->id'><i class='text-success fas fa-users'></i></div>";
+                }
+
+                $Action_Icon.="</div>";
+
+                return $Action_Icon;
+            });
     }
 
     /**

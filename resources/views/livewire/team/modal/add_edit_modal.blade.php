@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
         <div class="modal-content py-2">
             <div class="modal-header">
-                <h4 class="modal-title text-purple"><span class="fas fa-user-cog mr-3"></span>{{ $modal_title }}</h4>
+                <h4 class="modal-title text-purple"><span class="fas fa-users mr-3"></span>{{ $modal_title }}</h4>
                 <button type="button" wire:click.prevent="cancel()" thotam-blockui class="close" data-dismiss="modal" wire:loading.attr="disabled" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -126,9 +126,9 @@
                                         <label class="col-form-label text-indigo" for="quanlys">Quản lý:</label>
                                         <div class="select2-success" id="quanlys_div">
                                             <select class="form-control px-2 thotam-select2-multi" multiple thotam-placeholder="Quản lý ..." thotam-search="10" wire:model="quanlys" id="quanlys" style="width: 100%">
-                                                @if (!!count($quanly_arrays))
-                                                    @foreach ($quanly_arrays as $quanly_array)
-                                                        <option value="{{ $quanly_array["key"] }}">[{{ $quanly_array["key"] }}] {{ $quanly_array["hoten"] }}</option>
+                                                @if (!!count($nhansu_arrays))
+                                                    @foreach ($nhansu_arrays as $nhansu_array)
+                                                        <option value="{{ $nhansu_array["key"] }}">[{{ $nhansu_array["key"] }}] {{ $nhansu_array["hoten"] }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -161,7 +161,7 @@
                                     <div class="col-12">
                                         <div class="input-group form-group border-bottom thotam-border py-2">
                                             <div class="input-group-prepend mr-4">
-                                                <label class="col-form-label col-6 text-left pt-0 input-group-text border-0" for="active">Kích hoạt nhóm:</label>
+                                                <label class="col-form-label col-6 text-left pt-0 input-group-text border-0 text-indigo" for="active">Kích hoạt nhóm:</label>
                                             </div>
                                             <label class="switcher switcher-square">
                                                 <input type="checkbox" class="switcher-input form-control" wire:model="active" id="active" style="width: 100%">

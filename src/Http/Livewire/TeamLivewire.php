@@ -18,7 +18,7 @@ class TeamLivewire extends Component
     *
     * @var mixed
     */
-    public $name, $full_name, $chinhanh_id, $kenh_kinh_doanh_id, $nhom_san_pham_id, $phan_loai_id, $order, $active, $truc_thuoc_nhoms, $quanlys;
+    public $name, $full_name, $chinhanh_id, $kenh_kinh_doanh_id, $nhom_san_pham_id, $phan_loai_id, $order, $active, $truc_thuoc_nhoms, $quanlys, $thanhviens;
     public $modal_title, $toastr_message;
     public $team, $team_id;
     public $hr;
@@ -250,9 +250,60 @@ class TeamLivewire extends Component
         $this->modal_title = "Thêm nhóm mới";
         $this->toastr_message = "Thêm nhóm mới thành công";
 
+        $this->active = true;
+
         $this->dispatchBrowserEvent('unblockUI');
         $this->dispatchBrowserEvent('dynamic_update');
         $this->dispatchBrowserEvent('show_modal', "#add_edit_modal");
+    }
+
+    /**
+     * edit_team
+     *
+     * @param  mixed $team
+     * @return void
+     */
+    public function edit_team(Nhom $team)
+    {
+        if ($this->hr->cannot("add-team")) {
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Bạn không có quyền thực hiện hành động này"]);
+            $this->cancel();
+            return null;
+        }
+
+        $this->team = $team;
+        $this->team_id = $this->team->id;
+        $this->full_name = $this->team->full_name;
+        $this->name = $this->team->name;
+        $this->chinhanh_id = $this->team->chinhanh_id;
+        $this->kenh_kinh_doanh_id = $this->team->kenh_kinh_doanh_id;
+        $this->nhom_san_pham_id = $this->team->nhom_san_pham_id;
+        $this->phan_loai_id = $this->team->phan_loai_id;
+        $this->order = $this->team->order;
+        $this->active = !!$this->team->active;
+        $this->truc_thuoc_nhoms = $this->team->truc_thuoc_nhoms->pluck("id")->toArray();
+        $this->quanlys = $this->team->nhom_has_quanlys->pluck("key")->toArray();
+
+        if (!!$this->kenh_kinh_doanh_id) {
+            $this->nhom_san_pham_arrays = KenhKinhDoanh::find($this->kenh_kinh_doanh_id)->nhom_san_phams()->orderBy("order")->select("id", "name")->get()->toArray();
+        } else {
+            $this->nhom_san_pham_arrays = null;
+        }
+
+        $this->chinhanh_arrays = ChiNhanh::orderBy("order")->select("id", "name")->get()->toArray();
+        $this->phan_loai_arrays = PhanLoaiNhom::orderBy("order")->select("id", "name")->get()->toArray();
+        $this->kenh_kinh_doanh_arrays = KenhKinhDoanh::orderBy("order")->select("id", "name")->get()->toArray();
+        $this->nhom_arrays = Nhom::orderBy("order")->select("id", "full_name")->get()->toArray();
+
+        $this->editStatus = true;
+        $this->modal_title = "Chỉnh sửa nhóm";
+        $this->toastr_message = "Chỉnh sửa nhóm thành công";
+
+        $this->dispatchBrowserEvent('unblockUI');
+        $this->dispatchBrowserEvent('dynamic_update');
+        $this->dispatchBrowserEvent('show_modal', "#add_edit_modal");
+
+
     }
 
     /**
@@ -299,11 +350,73 @@ class TeamLivewire extends Component
                 "nhom_san_pham_id" => $this->nhom_san_pham_id,
                 "phan_loai_id" => $this->phan_loai_id,
                 "order" => $this->order,
-                "active" => true,
+                "active" => $this->active,
             ]);
 
-            $this->team->nhom_has_quanly()->sync($this->quanlys);
+            $this->team->nhom_has_quanlys()->sync($this->quanlys);
             $this->team->truc_thuoc_nhoms()->sync($this->truc_thuoc_nhoms);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $this->dispatchBrowserEvent('unblockUI');
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => implode(" - ", $e->errorInfo)]);
+            return null;
+        } catch (\Exception $e2) {
+            $this->dispatchBrowserEvent('unblockUI');
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => $e2->getMessage()]);
+            return null;
+        }
+
+        //Đẩy thông tin về trình duyệt
+        $this->dispatchBrowserEvent('dt_draw');
+        $toastr_message = $this->toastr_message;
+        $this->cancel();
+        $this->dispatchBrowserEvent('toastr', ['type' => 'success', 'title' => "Thành công", 'message' => $toastr_message]);
+    }
+
+    /**
+     * set_member_team
+     *
+     * @param  mixed $team
+     * @return void
+     */
+    public function set_member_team(Nhom $team)
+    {
+        if ($this->hr->cannot("set-member-team")) {
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Bạn không có quyền thực hiện hành động này"]);
+            $this->cancel();
+            return null;
+        }
+
+        $this->team = $team;
+        $this->full_name = $this->team->full_name;
+        $this->thanhviens = $this->team->nhom_has_thanhviens->pluck("key")->toArray();
+
+        $this->setTeamMemberStatus = true;
+        $this->modal_title = "Cập nhật nhân sự nhóm";
+        $this->toastr_message = "Cập nhật nhân sự nhóm thành công";
+
+        $this->dispatchBrowserEvent('unblockUI');
+        $this->dispatchBrowserEvent('dynamic_update');
+        $this->dispatchBrowserEvent('show_modal', "#set_team_member_modal");
+    }
+
+    public function set_member_team_save()
+    {
+        if ($this->hr->cannot("set-member-team")) {
+            $this->dispatchBrowserEvent('unblockUI');
+            $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => "Bạn không có quyền thực hiện hành động này"]);
+            return null;
+        }
+
+        //Xác thực dữ liệu
+        $this->dispatchBrowserEvent('unblockUI');
+        $validate = $this->validate([
+            'thanhviens' => 'nullable|array',
+            'thanhviens.*' => 'nullable|exists:hrs,key',
+        ]);
+        $this->dispatchBrowserEvent('blockUI');
+
+        try {
+            $this->team->nhom_has_thanhviens()->sync($this->thanhviens);
         } catch (\Illuminate\Database\QueryException $e) {
             $this->dispatchBrowserEvent('unblockUI');
             $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => implode(" - ", $e->errorInfo)]);

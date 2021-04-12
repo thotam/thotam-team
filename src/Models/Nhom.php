@@ -44,21 +44,21 @@ class Nhom extends Model
     }
 
     /**
-     * The nhom_has_quanly that belong to the Nhom
+     * The nhom_has_quanlys that belong to the Nhom
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function nhom_has_quanly(): BelongsToMany
+    public function nhom_has_quanlys(): BelongsToMany
     {
         return $this->belongsToMany(HR::class, 'nhom_quanlys', 'nhom_id', 'hr_key');
     }
 
     /**
-     * The nhom_has_thanhvien that belong to the Nhom
+     * The nhom_has_thanhviens that belong to the Nhom
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function nhom_has_thanhvien(): BelongsToMany
+    public function nhom_has_thanhviens(): BelongsToMany
     {
         return $this->belongsToMany(HR::class, 'nhom_thanhviens', 'nhom_id', 'hr_key');
     }
