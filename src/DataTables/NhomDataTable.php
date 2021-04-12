@@ -134,7 +134,7 @@ class NhomDataTable extends DataTable
                   ->title("Tên nhóm")
                   ->width(200)
                   ->searchable(true)
-                  ->orderable(true)
+                  ->orderable(false)
                   ->footer("Tên nhóm"),
             Column::make("chinhanh.name")
                   ->title("Chi nhánh")
