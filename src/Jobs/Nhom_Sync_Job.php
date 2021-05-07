@@ -34,7 +34,7 @@ class Nhom_Sync_Job implements ShouldQueue
      */
     public function handle()
     {
-        DB::connection('member')->table('user_infos')->updateOrInsert(
+        DB::connection('member')->table('teams')->updateOrInsert(
             [
                 'id' => $this->nhom->id,
             ],
