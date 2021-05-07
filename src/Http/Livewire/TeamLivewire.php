@@ -8,6 +8,7 @@ use Thotam\ThotamHr\Models\HR;
 use Thotam\ThotamTeam\Models\Nhom;
 use Thotam\ThotamPlus\Models\ChiNhanh;
 use Thotam\ThotamPlus\Models\NhomSanPham;
+use Thotam\ThotamTeam\Jobs\Nhom_Sync_Job;
 use Thotam\ThotamTeam\Models\PhanLoaiNhom;
 use Thotam\ThotamPlus\Models\KenhKinhDoanh;
 
@@ -355,6 +356,8 @@ class TeamLivewire extends Component
 
             $this->team->nhom_has_quanlys()->sync($this->quanlys);
             $this->team->truc_thuoc_nhoms()->sync($this->truc_thuoc_nhoms);
+
+            Nhom_Sync_Job::dispatch($this->team);
         } catch (\Illuminate\Database\QueryException $e) {
             $this->dispatchBrowserEvent('unblockUI');
             $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => implode(" - ", $e->errorInfo)]);
@@ -417,6 +420,8 @@ class TeamLivewire extends Component
 
         try {
             $this->team->nhom_has_thanhviens()->sync($this->thanhviens);
+
+            Nhom_Sync_Job::dispatch($this->team);
         } catch (\Illuminate\Database\QueryException $e) {
             $this->dispatchBrowserEvent('unblockUI');
             $this->dispatchBrowserEvent('toastr', ['type' => 'warning', 'title' => "Thất bại", 'message' => implode(" - ", $e->errorInfo)]);
