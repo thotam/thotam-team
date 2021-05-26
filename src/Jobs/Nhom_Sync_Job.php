@@ -15,16 +15,17 @@ class Nhom_Sync_Job implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $nhom;
+    public $nhom, $mnv;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Nhom $nhom)
+    public function __construct(Nhom $nhom, $mnv = null)
     {
         $this->nhom = $nhom;
+        $this->mnv = $mnv;
     }
 
     /**
@@ -46,7 +47,12 @@ class Nhom_Sync_Job implements ShouldQueue
         );
 
         DB::connection('member')->table('teams_have_leaders')->where('team_id', $this->nhom->id)->delete();
+
         DB::connection('member')->table('teams_have_members')->where('team_id', $this->nhom->id)->delete();
+
+        if (!!$this->mnv) {
+            DB::connection('member')->table('teams_have_members')->where('member_mnv', $this->mnv)->delete();
+        }
 
         $leaders = $this->nhom->nhom_has_quanlys;
 
