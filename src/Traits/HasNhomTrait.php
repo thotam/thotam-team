@@ -28,6 +28,18 @@ trait HasNhomTrait {
     }
 
     /**
+     * getMyAllTeamAttribute
+     *
+     * @return void
+     */
+    public function getMyAllTeamAttribute()
+    {
+        $nhom_arrays = $this->quanly_of_nhoms;
+        $nhom_arrays = $nhom_arrays->merge($this->thanhvien_of_nhoms);
+        return array_filter($nhom_arrays->pluck("full_name", "id")->toArray());
+    }
+
+    /**
      * getIsThanhvienAttribute
      *
      * @return void
