@@ -3,6 +3,7 @@
 namespace Thotam\ThotamTeam\Traits;
 
 use Thotam\ThotamTeam\Models\Nhom;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait HasNhomTrait {
@@ -37,6 +38,28 @@ trait HasNhomTrait {
         $nhom_arrays = $this->quanly_of_nhoms;
         $nhom_arrays = $nhom_arrays->merge($this->thanhvien_of_nhoms);
         return array_filter($nhom_arrays->pluck("full_name", "id")->toArray());
+    }
+
+    /**
+     * getQuanlyOfMultiLevelNhomsAttribute
+     *
+     * @return void
+     */
+    public function getQuanlyOfMultiLevelNhomsAttribute()
+    {
+        $nhoms = $this->quanly_of_nhoms->pluck('id')->toArray();
+        $loop = 0;
+        $sub_nhom[0] = $nhoms;
+
+        do {
+            $loop++;
+            $sub_nhom[$loop] = Nhom::whereHas('truc_thuoc_nhoms', function (Builder $query) use ($sub_nhom, $loop) {
+                                        $query->whereIn('nhom_tructhuocs.nhom_quan_ly_id', $sub_nhom[$loop - 1]);
+                                    })->pluck('id')->toArray();
+            $nhoms = array_merge($nhoms, $sub_nhom[$loop]);
+        } while ($loop <= 20 && !!count($sub_nhom[$loop]));
+
+        return Nhom::whereIn('id', $nhoms)->orderBy('order', 'desc')->orderBy('id')->get();
     }
 
     /**
