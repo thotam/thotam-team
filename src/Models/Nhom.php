@@ -72,4 +72,14 @@ class Nhom extends Model
     {
         return $this->belongsToMany(Nhom::class, 'nhom_tructhuocs', 'nhom_truc_thuoc_id', 'nhom_quan_ly_id');
     }
+
+    /**
+     * The nhom_tructhuocs that belong to the Nhom
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function nhom_tructhuocs(): BelongsToMany
+    {
+        return $this->belongsToMany(Nhom::class, 'nhom_tructhuocs', 'nhom_quan_ly_id', 'nhom_truc_thuoc_id');
+    }
 }
