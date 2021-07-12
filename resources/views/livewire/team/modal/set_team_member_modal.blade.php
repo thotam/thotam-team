@@ -27,11 +27,11 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label class="col-form-label text-indigo" for="thanhviens">Thành viên:</label>
-                                        <div class="select2-success" id="thanhviens_div">
-                                            <select class="form-control px-2 thotam-select2-multi" multiple thotam-placeholder="Thành viên ..." thotam-search="10" wire:model="thanhviens" id="thanhviens" style="width: 100%">
+                                        <div class="select2-success" id="thanhviens_div" wire:ignore>
+                                            <select class="form-control px-2" multiple thotam-placeholder="Thành viên ..." thotam-search="10" wire:model="thanhviens" id="thanhviens" style="width: 100%" x-init="thotam_ajax_select2($el, @this, '{{ route('admin.member.select_hr') }}', 50, '{{ csrf_token() }}')">
                                                 @if (!!count($nhansu_arrays))
-                                                    @foreach ($nhansu_arrays as $nhansu_array)
-                                                        <option value="{{ $nhansu_array["key"] }}">[{{ $nhansu_array["key"] }}] {{ $nhansu_array["hoten"] }}</option>
+                                                    @foreach ($nhansu_arrays as $key => $hoten)
+                                                        <option value="{{ $key }}">[{{ $key }}] {{ $hoten }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>

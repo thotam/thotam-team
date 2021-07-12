@@ -23,7 +23,7 @@ class TeamLivewire extends Component
     public $modal_title, $toastr_message;
     public $team, $team_id;
     public $hr;
-    public $chinhanh_arrays, $phan_loai_arrays, $kenh_kinh_doanh_arrays, $nhom_san_pham_arrays = [], $nhom_arrays, $quanly_arrays;
+    public $chinhanh_arrays = [], $phan_loai_arrays = [], $kenh_kinh_doanh_arrays = [], $nhom_san_pham_arrays = [], $nhom_arrays = [], $quanly_arrays = [], $nhansu_arrays = [];
 
     /**
      * @var bool
@@ -188,7 +188,7 @@ class TeamLivewire extends Component
     public function updatedKenhKinhDoanhId()
     {
         if (!!$this->kenh_kinh_doanh_id) {
-            $this->nhom_san_pham_arrays = KenhKinhDoanh::find($this->kenh_kinh_doanh_id)->nhom_san_phams()->orderBy("order")->select("id", "name")->get()->toArray();
+            $this->nhom_san_pham_arrays = KenhKinhDoanh::find($this->kenh_kinh_doanh_id)->nhom_san_phams()->orderBy("order")->select("id", "name")->get()->pluck("name", "id")->toArray();
         } else {
             $this->nhom_san_pham_arrays = null;
         }
@@ -243,8 +243,8 @@ class TeamLivewire extends Component
         }
 
         $this->chinhanh_arrays = ChiNhanh::orderBy("order")->select("id", "name")->get()->toArray();
-        $this->phan_loai_arrays = PhanLoaiNhom::orderBy("order")->select("id", "name")->get()->toArray();
-        $this->kenh_kinh_doanh_arrays = KenhKinhDoanh::orderBy("order")->select("id", "name")->get()->toArray();
+        $this->phan_loai_arrays = PhanLoaiNhom::orderBy("order")->select("id", "name")->get()->pluck("name", "id")->toArray();
+        $this->kenh_kinh_doanh_arrays = KenhKinhDoanh::orderBy("order")->select("id", "name")->get()->pluck("name", "id")->toArray();
         $this->nhom_arrays = Nhom::orderBy("order")->select("id", "full_name")->get()->toArray();
 
         $this->addStatus = true;
@@ -284,16 +284,17 @@ class TeamLivewire extends Component
         $this->active = !!$this->team->active;
         $this->truc_thuoc_nhoms = $this->team->truc_thuoc_nhoms->pluck("id")->toArray();
         $this->quanlys = $this->team->nhom_has_quanlys->pluck("key")->toArray();
+        $this->quanly_arrays = HR::whereIn('key', $this->quanlys)->get()->pluck("hoten","key")->toArray();
 
         if (!!$this->kenh_kinh_doanh_id) {
-            $this->nhom_san_pham_arrays = KenhKinhDoanh::find($this->kenh_kinh_doanh_id)->nhom_san_phams()->orderBy("order")->select("id", "name")->get()->toArray();
+            $this->nhom_san_pham_arrays = KenhKinhDoanh::find($this->kenh_kinh_doanh_id)->nhom_san_phams()->orderBy("order")->select("id", "name")->get()->pluck("name", "id")->toArray();
         } else {
             $this->nhom_san_pham_arrays = null;
         }
 
         $this->chinhanh_arrays = ChiNhanh::orderBy("order")->select("id", "name")->get()->toArray();
-        $this->phan_loai_arrays = PhanLoaiNhom::orderBy("order")->select("id", "name")->get()->toArray();
-        $this->kenh_kinh_doanh_arrays = KenhKinhDoanh::orderBy("order")->select("id", "name")->get()->toArray();
+        $this->phan_loai_arrays = PhanLoaiNhom::orderBy("order")->select("id", "name")->get()->pluck("name", "id")->toArray();
+        $this->kenh_kinh_doanh_arrays = KenhKinhDoanh::orderBy("order")->select("id", "name")->get()->pluck("name", "id")->toArray();
         $this->nhom_arrays = Nhom::orderBy("order")->select("id", "full_name")->get()->toArray();
 
         $this->editStatus = true;
@@ -392,6 +393,7 @@ class TeamLivewire extends Component
         $this->team = $team;
         $this->full_name = $this->team->full_name;
         $this->thanhviens = $this->team->nhom_has_thanhviens->pluck("key")->toArray();
+        $this->nhansu_arrays = HR::whereIn('key', $this->thanhviens)->get()->pluck("hoten","key")->toArray();
 
         $this->setTeamMemberStatus = true;
         $this->modal_title = "Cập nhật nhân sự nhóm";

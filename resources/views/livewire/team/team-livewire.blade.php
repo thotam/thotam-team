@@ -1,7 +1,3 @@
-@php
-    $nhansu_arrays = Thotam\ThotamHr\Models\HR::orderBy("key")->select("key", "hoten")->get()->toArray();
-@endphp
-
 <div>
     <!-- Filters and Add Buttons -->
     @include('thotam-team::livewire.team.sub.filters')

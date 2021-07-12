@@ -42,8 +42,8 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label class="col-form-label text-indigo" for="chinhanh_id">Chi nhánh:</label>
-                                        <div class="select2-success" id="chinhanh_id_div">
-                                            <select class="form-control px-2 thotam-select2" thotam-allow-clear="true" thotam-placeholder="Nhóm thuộc chi nhánh ..." thotam-search="10" wire:model="chinhanh_id" id="chinhanh_id" style="width: 100%">
+                                        <div class="select2-success" id="chinhanh_id_div" wire:ignore>
+                                            <select class="form-control px-2" thotam-allow-clear="true" thotam-placeholder="Nhóm thuộc chi nhánh ..." thotam-search="10" wire:model="chinhanh_id" id="chinhanh_id" style="width: 100%" x-init="thotam_select2($el, @this)">
                                                 @if (!!count($chinhanh_arrays))
                                                     <option selected></option>
                                                     @foreach ($chinhanh_arrays as $chinhanh_array)
@@ -61,12 +61,12 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label class="col-form-label text-indigo" for="phan_loai_id">Phân loại:</label>
-                                        <div class="select2-success" id="phan_loai_id_div">
-                                            <select class="form-control px-2 thotam-select2" thotam-allow-clear="true" thotam-placeholder="Phân loại nhóm ..." thotam-search="10" wire:model="phan_loai_id" id="phan_loai_id" style="width: 100%">
+                                        <div class="select2-success" id="phan_loai_id_div" wire:ignore>
+                                            <select class="form-control px-2" thotam-allow-clear="true" thotam-placeholder="Phân loại nhóm ..." thotam-search="10" wire:model="phan_loai_id" id="phan_loai_id" style="width: 100%" x-init="thotam_select2($el, @this)">
                                                 @if (!!count($phan_loai_arrays))
                                                     <option selected></option>
-                                                    @foreach ($phan_loai_arrays as $phan_loai_array)
-                                                        <option value="{{ $phan_loai_array["id"] }}">{{ $phan_loai_array["name"] }}</option>
+                                                    @foreach ($phan_loai_arrays as $id => $name)
+                                                        <option value="{{ $id }}">{{ $name }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -82,14 +82,8 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label class="col-form-label text-indigo" for="kenh_kinh_doanh_id">Kênh kinh doanh:</label>
-                                            <div class="select2-success" id="kenh_kinh_doanh_id_div">
-                                                <select class="form-control px-2 thotam-select2" thotam-allow-clear="true" thotam-placeholder="Kênh kinh doanh ..." thotam-search="10" wire:model="kenh_kinh_doanh_id" id="kenh_kinh_doanh_id" style="width: 100%">
-                                                    @if (!!count($kenh_kinh_doanh_arrays))
-                                                        <option selected></option>
-                                                        @foreach ($kenh_kinh_doanh_arrays as $kenh_kinh_doanh_array)
-                                                            <option value="{{ $kenh_kinh_doanh_array["id"] }}">{{ $kenh_kinh_doanh_array["name"] }}</option>
-                                                        @endforeach
-                                                    @endif
+                                            <div class="select2-success" id="kenh_kinh_doanh_id_div" wire:ignore>
+                                                <select class="form-control px-2" thotam-allow-clear="true" thotam-placeholder="Kênh kinh doanh ..." thotam-search="10" wire:model="kenh_kinh_doanh_id" id="kenh_kinh_doanh_id" style="width: 100%" x-init="thotam_select2($el, @this)" thotam-select2-rerender="kenh_kinh_doanh_arrays" thotam-livewire-id="@this">
                                                 </select>
                                             </div>
                                             @error('kenh_kinh_doanh_id')
@@ -102,14 +96,8 @@
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label class="col-form-label text-indigo" for="nhom_san_pham_id">Nhóm sản phẩm:</label>
-                                                <div class="select2-success" id="nhom_san_pham_id_div">
-                                                    <select class="form-control px-2 thotam-select2" thotam-allow-clear="true" thotam-placeholder="Nhóm sản phẩm ..." thotam-search="10" wire:model="nhom_san_pham_id" id="nhom_san_pham_id" style="width: 100%">
-                                                        @if (!!count($nhom_san_pham_arrays))
-                                                            <option selected></option>
-                                                            @foreach ($nhom_san_pham_arrays as $nhom_san_pham_array)
-                                                                <option value="{{ $nhom_san_pham_array["id"] }}">{{ $nhom_san_pham_array["name"] }}</option>
-                                                            @endforeach
-                                                        @endif
+                                                <div class="select2-success" id="nhom_san_pham_id_div" wire:ignore>
+                                                    <select class="form-control px-2" thotam-allow-clear="true" thotam-placeholder="Nhóm sản phẩm ..." thotam-search="10" wire:model="nhom_san_pham_id" id="nhom_san_pham_id" style="width: 100%" x-init="thotam_select2($el, @this)" thotam-select2-rerender="nhom_san_pham_arrays" thotam-livewire-id="@this">
                                                     </select>
                                                 </div>
                                                 @error('nhom_san_pham_id')
@@ -124,11 +112,11 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label class="col-form-label text-indigo" for="quanlys">Quản lý:</label>
-                                        <div class="select2-success" id="quanlys_div">
-                                            <select class="form-control px-2 thotam-select2-multi" multiple thotam-placeholder="Quản lý ..." thotam-search="10" wire:model="quanlys" id="quanlys" style="width: 100%">
-                                                @if (!!count($nhansu_arrays))
-                                                    @foreach ($nhansu_arrays as $nhansu_array)
-                                                        <option value="{{ $nhansu_array["key"] }}">[{{ $nhansu_array["key"] }}] {{ $nhansu_array["hoten"] }}</option>
+                                        <div class="select2-success" id="quanlys_div" wire:ignore>
+                                            <select class="form-control px-2" multiple thotam-placeholder="Quản lý ..." thotam-search="10" wire:model="quanlys" id="quanlys" style="width: 100%" x-init="thotam_ajax_select2($el, @this, '{{ route('admin.member.select_hr') }}', 50, '{{ csrf_token() }}')">
+                                                @if (!!count($quanly_arrays))
+                                                    @foreach ($quanly_arrays as $key => $hoten)
+                                                        <option value="{{ $key  }}">[{{ $key  }}] {{ $hoten }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -142,8 +130,8 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label class="col-form-label text-indigo" for="truc_thuoc_nhoms">Trực thuộc nhóm:</label>
-                                        <div class="select2-success" id="truc_thuoc_nhoms_div">
-                                            <select class="form-control px-2 thotam-select2-multi" multiple thotam-placeholder="Trực thuộc nhóm ..." thotam-search="10" wire:model="truc_thuoc_nhoms" id="truc_thuoc_nhoms" style="width: 100%">
+                                        <div class="select2-success" id="truc_thuoc_nhoms_div" wire:ignore>
+                                            <select class="form-control px-2" multiple thotam-placeholder="Trực thuộc nhóm ..." thotam-search="10" wire:model="truc_thuoc_nhoms" id="truc_thuoc_nhoms" style="width: 100%" x-init="thotam_select2($el, @this)">
                                                 @if (!!count($nhom_arrays))
                                                     @foreach ($nhom_arrays as $nhom_array)
                                                         <option value="{{ $nhom_array["id"] }}">{{ $nhom_array["full_name"] }}</option>
