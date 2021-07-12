@@ -11,4 +11,8 @@
         text-overflow: ellipsis;
         max-width: 230px;
     }
+
+    [thotam-datatables] > thead > tr > td:nth-child(9) > div > div > span {
+        max-width: 120px !important;
+    }
 </style>

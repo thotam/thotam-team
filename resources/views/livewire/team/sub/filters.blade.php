@@ -1,16 +1,27 @@
 <!-- Filters -->
-<div class="px-4 pt-4 mb-0" wire:ignore>
-    <div class="form-row">
+<div class="px-4 pt-0 mb-0">
+    <div class="form-row justify-content-between">
 
-        @if ($hr->can("add-team"))
-            <div class="col-md-auto mb-4 pr-md-3">
-                <label class="form-label d-none d-md-block">&nbsp;</label>
-                <div class="col px-0 mb-1 text-md-left text-center">
+        <div class="col-md-auto mb-2">
+            <label class="form-label"></label>
+            <div class="col px-0 mb-1 text-md-left text-center">
+                @if ($hr->can("add-team"))
                     <button type="button" class="btn btn-success waves-effect" wire:click.prevent="add_team" wire:loading.attr="disabled" thotam-blockui><span class="fas fa-plus-circle mr-2"></span>Thêm</button>
-                </div>
+                @endif
             </div>
-        @endif
+        </div>
+
+        <div class="col-md-auto mb-2">
+            <div class="form-row justify-content-between">
+
+                <div class="col-12 col-md-auto px-0 text-md-right text-center" wire:ignore>
+                    <label class="form-label"></label>
+                    <div class="d-none" id="datatable-buttons">
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
     </div>
 </div>
-<!-- / Filters -->
