@@ -82,4 +82,14 @@ class Nhom extends Model
     {
         return $this->belongsToMany(Nhom::class, 'nhom_tructhuocs', 'nhom_quan_ly_id', 'nhom_truc_thuoc_id');
     }
+
+    /**
+     * getIsNotKDAttribute
+     *
+     * @return void
+     */
+    public function getIsNotKDAttribute()
+    {
+        return $this->phan_loai_id != 3;
+    }
 }
