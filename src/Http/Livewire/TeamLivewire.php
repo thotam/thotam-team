@@ -188,7 +188,12 @@ class TeamLivewire extends Component
     public function updatedKenhKinhDoanhId()
     {
         if (!!$this->kenh_kinh_doanh_id) {
-            $this->nhom_san_pham_arrays = KenhKinhDoanh::find($this->kenh_kinh_doanh_id)->nhom_san_phams()->orderBy("order")->select("id", "name")->get()->pluck("name", "id")->toArray();
+            $this->nhom_san_pham_arrays = KenhKinhDoanh::find($this->kenh_kinh_doanh_id)->nhom_san_phams()->orderBy("order")->select("id", "name")->get()->map(function ($item, $key) {
+                return [
+                    'value' => $item->id,
+                    'text' => $item->name,
+                ];
+            })->toArray();
         } else {
             $this->nhom_san_pham_arrays = null;
         }
@@ -244,7 +249,12 @@ class TeamLivewire extends Component
 
         $this->chinhanh_arrays = ChiNhanh::orderBy("order")->select("id", "name")->get()->toArray();
         $this->phan_loai_arrays = PhanLoaiNhom::orderBy("order")->select("id", "name")->get()->pluck("name", "id")->toArray();
-        $this->kenh_kinh_doanh_arrays = KenhKinhDoanh::orderBy("order")->select("id", "name")->get()->pluck("name", "id")->toArray();
+        $this->kenh_kinh_doanh_arrays = KenhKinhDoanh::orderBy("order")->select("id", "name")->get()->map(function ($item, $key) {
+            return [
+                'value' => $item->id,
+                'text' => $item->name,
+            ];
+        })->toArray();
         $this->nhom_arrays = Nhom::orderBy("order")->select("id", "full_name")->get()->toArray();
 
         $this->addStatus = true;
@@ -287,14 +297,24 @@ class TeamLivewire extends Component
         $this->quanly_arrays = HR::whereIn('key', $this->quanlys)->get()->pluck("hoten","key")->toArray();
 
         if (!!$this->kenh_kinh_doanh_id) {
-            $this->nhom_san_pham_arrays = KenhKinhDoanh::find($this->kenh_kinh_doanh_id)->nhom_san_phams()->orderBy("order")->select("id", "name")->get()->pluck("name", "id")->toArray();
+            $this->nhom_san_pham_arrays = KenhKinhDoanh::find($this->kenh_kinh_doanh_id)->nhom_san_phams()->orderBy("order")->select("id", "name")->get()->map(function ($item, $key) {
+                return [
+                    'value' => $item->id,
+                    'text' => $item->name,
+                ];
+            })->toArray();
         } else {
             $this->nhom_san_pham_arrays = null;
         }
 
         $this->chinhanh_arrays = ChiNhanh::orderBy("order")->select("id", "name")->get()->toArray();
         $this->phan_loai_arrays = PhanLoaiNhom::orderBy("order")->select("id", "name")->get()->pluck("name", "id")->toArray();
-        $this->kenh_kinh_doanh_arrays = KenhKinhDoanh::orderBy("order")->select("id", "name")->get()->pluck("name", "id")->toArray();
+        $this->kenh_kinh_doanh_arrays = KenhKinhDoanh::orderBy("order")->select("id", "name")->get()->map(function ($item, $key) {
+            return [
+                'value' => $item->id,
+                'text' => $item->name,
+            ];
+        })->toArray();
         $this->nhom_arrays = Nhom::orderBy("order")->select("id", "full_name")->get()->toArray();
 
         $this->editStatus = true;
