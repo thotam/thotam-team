@@ -3,6 +3,7 @@
 namespace Thotam\ThotamTeam;
 
 use Livewire\Livewire;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Thotam\ThotamTeam\Http\Livewire\TeamLivewire;
 
@@ -19,7 +20,9 @@ class ThotamTeamServiceProvider extends ServiceProvider
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'thotam-team');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'thotam-team');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        $this->loadRoutesFrom(__DIR__.'/../routes/routes.php');
+        Route::domain('beta.' . env('APP_DOMAIN', 'cpc1hn.com.vn'))->group(function () {
+            $this->loadRoutesFrom(__DIR__.'/../routes/routes.php');
+        });
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
