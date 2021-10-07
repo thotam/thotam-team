@@ -41,6 +41,18 @@ trait HasNhomTrait {
     }
 
     /**
+     * getMyAllOtcTeamAttribute
+     *
+     * @return void
+     */
+    public function getMyAllOtcTeamAttribute()
+    {
+        $nhom_arrays = $this->quanly_of_nhoms;
+        $nhom_arrays = $nhom_arrays->merge($this->thanhvien_of_nhoms);
+        return array_filter($nhom_arrays->where('kenh_kinh_doanh_id', 2)->pluck("full_name", "id")->toArray());
+    }
+
+    /**
      * getQuanlyOfMultiLevelNhomsAttribute
      *
      * @return void
