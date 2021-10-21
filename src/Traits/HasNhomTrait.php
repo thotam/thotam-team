@@ -53,6 +53,18 @@ trait HasNhomTrait {
     }
 
     /**
+     * getMyAllEtcsTeamAttribute
+     *
+     * @return void
+     */
+    public function getMyAllEtcsTeamAttribute()
+    {
+        $nhom_arrays = $this->quanly_of_nhoms;
+        $nhom_arrays = $nhom_arrays->merge($this->thanhvien_of_nhoms);
+        return array_filter($nhom_arrays->whereIn('kenh_kinh_doanh_id', [1, 3, 4])->pluck("full_name", "id")->toArray());
+    }
+
+    /**
      * getQuanlyOfMultiLevelNhomsAttribute
      *
      * @return void
@@ -141,7 +153,7 @@ trait HasNhomTrait {
     {
         $otc_teams = Nhom::where("active", true)->where("kenh_kinh_doanh_id", 2)->get();
 
-        foreach ($this->quanly_of_nhoms as $nhom) {
+        foreach ($this->quanly_of_multi_level_nhoms as $nhom) {
             if ($otc_teams->contains($nhom)) {
                 return true;
                 break;
@@ -162,6 +174,44 @@ trait HasNhomTrait {
 
         foreach ($this->thanhvien_of_nhoms as $nhom) {
             if ($otc_teams->contains($nhom)) {
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * getIsEtcsQuanlyAttribute
+     *
+     * @return void
+     */
+    public function getIsEtcsQuanlyAttribute()
+    {
+        $etcs_teams = Nhom::where("active", true)->whereIn('kenh_kinh_doanh_id', [1, 3, 4])->get();
+
+        foreach ($this->quanly_of_multi_level_nhoms as $nhom) {
+            if ($etcs_teams->contains($nhom)) {
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * getIsEtcsThanhvienAttribute
+     *
+     * @return void
+     */
+    public function getIsEtcsThanhvienAttribute()
+    {
+        $etcs_teams = Nhom::where("active", true)->whereIn('kenh_kinh_doanh_id', [1, 3, 4])->get();
+
+        foreach ($this->thanhvien_of_nhoms as $nhom) {
+            if ($etcs_teams->contains($nhom)) {
                 return true;
                 break;
             }
