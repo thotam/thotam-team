@@ -47,7 +47,9 @@ class Nhom_Sync_Job implements ShouldQueue
             ]
         );
 
-        DB::connection('member')->table('teams_have_leaders')->where('team_id', $this->nhom->id)->delete();
+        if ($this->nhom->id != 2) {
+            DB::connection('member')->table('teams_have_leaders')->where('team_id', $this->nhom->id)->delete();
+        }
 
         DB::connection('member')->table('teams_have_members')->where('team_id', $this->nhom->id)->delete();
 
@@ -56,16 +58,16 @@ class Nhom_Sync_Job implements ShouldQueue
         }
 
         $leaders = $this->nhom->nhom_has_quanlys;
-
-        foreach ($leaders as $leader) {
-            DB::connection('member')->table('teams_have_leaders')->insert([
-                'leader_mnv' => $leader->key,
-                'team_id' => $this->nhom->id
-            ]);
+        if ($this->nhom->id != 2) {
+            foreach ($leaders as $leader) {
+                DB::connection('member')->table('teams_have_leaders')->insert([
+                    'leader_mnv' => $leader->key,
+                    'team_id' => $this->nhom->id
+                ]);
+            }
         }
 
         $members = $this->nhom->nhom_has_thanhviens;
-
         foreach ($members as $member) {
             DB::connection('member')->table('teams_have_members')->insert([
                 'member_mnv' => $member->key,
