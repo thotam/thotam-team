@@ -4,6 +4,7 @@ namespace Thotam\ThotamTeam\Traits;
 
 use Thotam\ThotamTeam\Models\Nhom;
 use Illuminate\Database\Eloquent\Builder;
+use Thotam\ThotamPlus\Models\NhomSanPham;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait HasNhomTrait {
@@ -27,6 +28,17 @@ trait HasNhomTrait {
     {
         return $this->belongsToMany(Nhom::class, 'nhom_thanhviens', 'hr_key', 'nhom_id');
     }
+
+    /**
+     * The nhom_san_phams that belong to the HasNhomTrait
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function nhom_san_phams(): BelongsToMany
+    {
+        return $this->belongsToMany(NhomSanPham::class, 'hr_nhom_san_phams', 'hr_key', 'nhom_san_pham_id');
+    }
+
 
     /**
      * getMyAllTeamAttribute
