@@ -157,6 +157,40 @@ trait HasNhomTrait {
     }
 
     /**
+     * getIsKdQuanlyAttribute
+     *
+     * @return void
+     */
+    public function getIsKdQuanlyAttribute()
+    {
+        foreach ($this->quanly_of_nhoms as $nhom) {
+            if ($nhom->phan_loai_id == 3) {
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * getIsKdThanhvienAttribute
+     *
+     * @return void
+     */
+    public function getIsKdThanhvienAttribute()
+    {
+        foreach ($this->thanhvien_of_nhoms as $nhom) {
+            if ($nhom->phan_loai_id == 3) {
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * getIsOtcQuanlyAttribute
      *
      * @return void
