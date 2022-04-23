@@ -62,11 +62,20 @@ class Team_Seeder extends Seeder
                 'active' => true
             ]
         );
+        PhanLoaiNhom::updateOrCreate(
+            ['id' => 6],
+            [
+                'name' => "Upharma",
+                'tag' => "U",
+                'order' => 4,
+                'active' => true
+            ]
+        );
 
         //Role and Permission
         $permission[] = Permission::updateOrCreate([
             'name' => 'view-team'
-        ],[
+        ], [
             "description" => "Xem Nhóm",
             "group" => "Team",
             "order" => 1,
@@ -75,7 +84,7 @@ class Team_Seeder extends Seeder
 
         $permission[] = Permission::updateOrCreate([
             'name' => 'add-team'
-        ],[
+        ], [
             "description" => "Thêm Nhóm",
             "group" => "Team",
             "order" => 2,
@@ -84,7 +93,7 @@ class Team_Seeder extends Seeder
 
         $permission[] = Permission::updateOrCreate([
             'name' => 'edit-team'
-        ],[
+        ], [
             "description" => "Sửa Nhóm",
             "group" => "Team",
             "order" => 3,
@@ -93,7 +102,7 @@ class Team_Seeder extends Seeder
 
         $permission[] = Permission::updateOrCreate([
             'name' => 'delete-team'
-        ],[
+        ], [
             "description" => "Xóa Nhóm",
             "group" => "Team",
             "order" => 4,
@@ -102,7 +111,7 @@ class Team_Seeder extends Seeder
 
         $permission[] = Permission::updateOrCreate([
             'name' => 'set-member-team'
-        ],[
+        ], [
             "description" => "Set nhân viên cho Nhóm",
             "group" => "Team",
             "order" => 5,
@@ -111,7 +120,7 @@ class Team_Seeder extends Seeder
 
         $super_admin = Role::updateOrCreate([
             'name' => 'super-admin'
-        ],[
+        ], [
             "description" => "Super Admin",
             "group" => "Admin",
             "order" => 1,
@@ -120,7 +129,7 @@ class Team_Seeder extends Seeder
 
         $admin = Role::updateOrCreate([
             'name' => 'admin'
-        ],[
+        ], [
             "description" => "Admin",
             "group" => "Admin",
             "order" => 2,
@@ -129,7 +138,7 @@ class Team_Seeder extends Seeder
 
         $admin_team = Role::updateOrCreate([
             'name' => 'admin-team'
-        ],[
+        ], [
             "description" => "Admin Team",
             "group" => "Admin",
             "order" => 5,
@@ -139,6 +148,5 @@ class Team_Seeder extends Seeder
         $super_admin->givePermissionTo($permission);
         $admin->givePermissionTo($permission);
         $admin_team->givePermissionTo($permission);
-
     }
 }
