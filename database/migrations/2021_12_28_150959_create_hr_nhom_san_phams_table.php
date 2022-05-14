@@ -14,7 +14,7 @@ class CreateHrNhomSanPhamsTable extends Migration
     public function up()
     {
         Schema::create('hr_nhom_san_phams', function (Blueprint $table) {
-            $table->string('hr_key', 10);
+            $table->string('hr_key', 20);
             $table->foreign('hr_key')->references('key')->on('hrs')->onDelete('cascade')->onUpdate('cascade');
             $table->bigInteger('nhom_san_pham_id')->unsigned();
             $table->primary(['hr_key', 'nhom_san_pham_id']);
