@@ -15,10 +15,10 @@ use Thotam\ThotamPlus\Models\KenhKinhDoanh;
 class TeamLivewire extends Component
 {
     /**
-    * Các biến sử dụng trong Component
-    *
-    * @var mixed
-    */
+     * Các biến sử dụng trong Component
+     *
+     * @var mixed
+     */
     public $name, $full_name, $chinhanh_id, $kenh_kinh_doanh_id, $nhom_san_pham_id, $phan_loai_id, $order, $active, $truc_thuoc_nhoms, $quanlys, $thanhviens;
     public $modal_title, $toastr_message;
     public $team, $team_id;
@@ -40,7 +40,7 @@ class TeamLivewire extends Component
      *
      * @var array
      */
-    protected $listeners = ['dynamic_update_method', 'add_team', 'edit_team', 'set_member_team', ];
+    protected $listeners = ['dynamic_update_method', 'add_team', 'edit_team', 'set_member_team',];
 
     /**
      * dynamic_update_method
@@ -68,12 +68,13 @@ class TeamLivewire extends Component
      *
      * @var array
      */
-    protected function rules() {
+    protected function rules()
+    {
         return [
             'full_name' => 'required|string',
             'name' => 'required|string',
             'chinhanh_id' => 'required|exists:chinhanhs,id',
-            'kenh_kinh_doanh_id' => $this->phan_loai_id == 3 ? 'required' :'nullable' . '|exists:kenh_kinh_doanhs,id',
+            'kenh_kinh_doanh_id' => $this->phan_loai_id == 3 ? 'required' : 'nullable' . '|exists:kenh_kinh_doanhs,id',
             'nhom_san_pham_id' => 'nullable|exists:nhom_san_phams,id',
             'phan_loai_id' => 'required|exists:phan_loai_nhoms,id',
             'order' => 'nullable|numeric',
@@ -160,8 +161,7 @@ class TeamLivewire extends Component
             $full_names[] = trim($this->name);
         }
 
-        $this->full_name = implode("-",array_unique($full_names));
-
+        $this->full_name = implode("-", array_unique($full_names));
     }
 
     /**
@@ -294,7 +294,7 @@ class TeamLivewire extends Component
         $this->active = !!$this->team->active;
         $this->truc_thuoc_nhoms = $this->team->truc_thuoc_nhoms->pluck("id")->toArray();
         $this->quanlys = $this->team->nhom_has_quanlys->pluck("key")->toArray();
-        $this->quanly_arrays = HR::whereIn('key', $this->quanlys)->get()->pluck("hoten","key")->toArray();
+        $this->quanly_arrays = HR::whereIn('key', $this->quanlys)->get()->pluck("hoten", "key")->toArray();
 
         if (!!$this->kenh_kinh_doanh_id) {
             $this->nhom_san_pham_arrays = KenhKinhDoanh::find($this->kenh_kinh_doanh_id)->nhom_san_phams()->orderBy("order")->select("id", "name")->get()->map(function ($item, $key) {
@@ -324,8 +324,6 @@ class TeamLivewire extends Component
         $this->dispatchBrowserEvent('unblockUI');
         $this->dispatchBrowserEvent('dynamic_update');
         $this->dispatchBrowserEvent('show_modal', "#add_edit_modal");
-
-
     }
 
     /**
@@ -349,7 +347,7 @@ class TeamLivewire extends Component
             'full_name' => 'required|string',
             'name' => 'required|string',
             'chinhanh_id' => 'required|exists:chinhanhs,id',
-            'kenh_kinh_doanh_id' => $this->phan_loai_id == 3 ? 'required' :'nullable' . '|exists:kenh_kinh_doanhs,id',
+            'kenh_kinh_doanh_id' => $this->phan_loai_id == 3 ? 'required' : 'nullable' . '|exists:kenh_kinh_doanhs,id',
             'nhom_san_pham_id' => 'nullable|exists:nhom_san_phams,id',
             'phan_loai_id' => 'required|exists:phan_loai_nhoms,id',
             'order' => 'nullable|numeric',
@@ -364,13 +362,13 @@ class TeamLivewire extends Component
         try {
             $this->team = Nhom::updateOrCreate([
                 'id' => $this->team_id,
-            ],[
+            ], [
                 "full_name" => trim($this->full_name),
                 "name" => trim($this->name),
                 "chinhanh_id" => $this->chinhanh_id,
-                "kenh_kinh_doanh_id" => $this->kenh_kinh_doanh_id,
-                "nhom_san_pham_id" => $this->nhom_san_pham_id,
-                "phan_loai_id" => $this->phan_loai_id,
+                "kenh_kinh_doanh_id" => (bool)$this->kenh_kinh_doanh_id ? $this->kenh_kinh_doanh_id : null,
+                "nhom_san_pham_id" => (bool)$this->nhom_san_pham_id ? $this->nhom_san_pham_id : null,
+                "phan_loai_id" => (bool)$this->phan_loai_id ? $this->phan_loai_id : null,
                 "order" => $this->order,
                 "active" => $this->active,
             ]);
@@ -413,7 +411,7 @@ class TeamLivewire extends Component
         $this->team = $team;
         $this->full_name = $this->team->full_name;
         $this->thanhviens = $this->team->nhom_has_thanhviens->pluck("key")->toArray();
-        $this->nhansu_arrays = HR::whereIn('key', $this->thanhviens)->get()->pluck("hoten","key")->toArray();
+        $this->nhansu_arrays = HR::whereIn('key', $this->thanhviens)->get()->pluck("hoten", "key")->toArray();
 
         $this->setTeamMemberStatus = true;
         $this->modal_title = "Cập nhật nhân sự nhóm";
