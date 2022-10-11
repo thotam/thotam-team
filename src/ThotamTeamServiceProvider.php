@@ -6,6 +6,7 @@ use Livewire\Livewire;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Thotam\ThotamTeam\Http\Livewire\TeamLivewire;
+use Thotam\ThotamTeam\Http\Livewire\Team_iCPC1HN_Livewire;
 
 class ThotamTeamServiceProvider extends ServiceProvider
 {
@@ -18,15 +19,15 @@ class ThotamTeamServiceProvider extends ServiceProvider
          * Optional methods to load your package assets
          */
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'thotam-team');
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'thotam-team');
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'thotam-team');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         Route::domain('beta.' . env('APP_DOMAIN', 'cpc1hn.com.vn'))->group(function () {
-            $this->loadRoutesFrom(__DIR__.'/../routes/routes.php');
+            $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
         });
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('thotam-team.php'),
+                __DIR__ . '/../config/config.php' => config_path('thotam-team.php'),
             ], 'config');
 
             // Publishing the views.
@@ -62,7 +63,7 @@ class ThotamTeamServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'thotam-team');
+        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'thotam-team');
 
         // Register the main class to use with the facade
         $this->app->singleton('thotam-team', function () {
@@ -71,6 +72,7 @@ class ThotamTeamServiceProvider extends ServiceProvider
 
         if (class_exists(Livewire::class)) {
             Livewire::component('thotam-team::team-livewire', TeamLivewire::class);
+            Livewire::component('thotam-team::team-icpc1hn-livewire', Team_iCPC1HN_Livewire::class);
         }
     }
 }

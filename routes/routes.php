@@ -25,10 +25,9 @@ Route::middleware(['web', 'auth', 'CheckAccount', 'CheckHr', 'CheckInfo'])->grou
         Route::group(['prefix' => 'member'], function () {
 
             Route::get('team',  [TeamController::class, 'index'])->name('admin.member.team');
+            Route::get('team-icpc1hn',  [TeamController::class, 'index_icpc1hn'])->name('admin.member.team_icpc1hn');
 
             Route::post('quanly_select',  [TeamController::class, 'quanly_select'])->name('admin.member.quanly_select');
         });
-
     });
-
 });
