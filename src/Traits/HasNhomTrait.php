@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Thotam\ThotamPlus\Models\NhomSanPham;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-trait HasNhomTrait {
+trait HasNhomTrait
+{
 
     /**
      * The quanly_of_nhoms that belong to the HasNhomTrait
@@ -90,8 +91,8 @@ trait HasNhomTrait {
         do {
             $loop++;
             $sub_nhom[$loop] = Nhom::whereHas('truc_thuoc_nhoms', function (Builder $query) use ($sub_nhom, $loop) {
-                                        $query->whereIn('nhom_tructhuocs.nhom_quan_ly_id', $sub_nhom[$loop - 1]);
-                                    })->pluck('id')->toArray();
+                $query->whereIn('nhom_tructhuocs.nhom_quan_ly_id', $sub_nhom[$loop - 1]);
+            })->pluck('id')->toArray();
             $nhoms = array_merge($nhoms, $sub_nhom[$loop]);
         } while ($loop <= 20 && !!count($sub_nhom[$loop]));
 
@@ -266,4 +267,37 @@ trait HasNhomTrait {
         return false;
     }
 
+    /**
+     * getIsTtsQuanlyAttribute
+     *
+     * @return void
+     */
+    public function getIsTtsQuanlyAttribute()
+    {
+        foreach ($this->quanly_of_nhoms as $nhom) {
+            if ($nhom->phan_loai_id == 5) {
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * getIsTtsThanhvienAttribute
+     *
+     * @return void
+     */
+    public function getIsTtsThanhvienAttribute()
+    {
+        foreach ($this->thanhvien_of_nhoms as $nhom) {
+            if ($nhom->phan_loai_id == 5) {
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
 }
