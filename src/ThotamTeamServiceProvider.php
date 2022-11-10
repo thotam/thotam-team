@@ -21,7 +21,7 @@ class ThotamTeamServiceProvider extends ServiceProvider
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'thotam-team');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'thotam-team');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        Route::domain('beta.' . env('APP_DOMAIN', 'cpc1hn.com.vn'))->group(function () {
+        Route::domain('member.' . env('APP_DOMAIN', 'upharma.vn'))->group(function () {
             $this->loadRoutesFrom(__DIR__ . '/../routes/routes.php');
         });
 
