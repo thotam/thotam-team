@@ -66,6 +66,30 @@ trait HasNhomTrait
     }
 
     /**
+     * getMyAllGtTeamAttribute
+     *
+     * @return void
+     */
+    public function getMyAllGtTeamAttribute()
+    {
+        $nhom_arrays = $this->quanly_of_nhoms;
+        $nhom_arrays = $nhom_arrays->merge($this->thanhvien_of_nhoms);
+        return array_filter($nhom_arrays->where('kenh_kinh_doanh_id', 5)->pluck("full_name", "id")->toArray());
+    }
+
+    /**
+     * getMyAllOtcGtTeamAttribute
+     *
+     * @return void
+     */
+    public function getMyAllOtcGtTeamAttribute()
+    {
+        $nhom_arrays = $this->quanly_of_nhoms;
+        $nhom_arrays = $nhom_arrays->merge($this->thanhvien_of_nhoms);
+        return array_filter($nhom_arrays->whereIn('kenh_kinh_doanh_id', [2, 5])->pluck("full_name", "id")->toArray());
+    }
+
+    /**
      * getMyAllEtcsTeamAttribute
      *
      * @return void
@@ -293,6 +317,82 @@ trait HasNhomTrait
     {
         foreach ($this->thanhvien_of_nhoms as $nhom) {
             if ($nhom->phan_loai_id == 5) {
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * getIsGtQuanlyAttribute
+     *
+     * @return void
+     */
+    public function getIsGtQuanlyAttribute()
+    {
+        $gt_teams = Nhom::where("active", true)->where("kenh_kinh_doanh_id", 5)->get();
+
+        foreach ($this->quanly_of_multi_level_nhoms as $nhom) {
+            if ($gt_teams->contains($nhom)) {
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * getIsGtThanhvienAttribute
+     *
+     * @return void
+     */
+    public function getIsGtThanhvienAttribute()
+    {
+        $gt_teams = Nhom::where("active", true)->where("kenh_kinh_doanh_id", 5)->get();
+
+        foreach ($this->thanhvien_of_nhoms as $nhom) {
+            if ($gt_teams->contains($nhom)) {
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * getIsOtcGtQuanlyAttribute
+     *
+     * @return void
+     */
+    public function getIsOtcGtQuanlyAttribute()
+    {
+        $Teams = Nhom::where("active", true)->whereIn("kenh_kinh_doanh_id", [2, 5])->get();
+
+        foreach ($this->quanly_of_multi_level_nhoms as $nhom) {
+            if ($Teams->contains($nhom)) {
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * getIsOtcGtThanhvienAttribute
+     *
+     * @return void
+     */
+    public function getIsOtcGtThanhvienAttribute()
+    {
+        $Teams = Nhom::where("active", true)->whereIn("kenh_kinh_doanh_id", [2, 5])->get();
+
+        foreach ($this->thanhvien_of_nhoms as $nhom) {
+            if ($Teams->contains($nhom)) {
                 return true;
                 break;
             }
