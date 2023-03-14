@@ -71,15 +71,6 @@ class Team_Seeder extends Seeder
                 'active' => true
             ]
         );
-        PhanLoaiNhom::updateOrCreate(
-            ['id' => 7],
-            [
-                'name' => "Xưởng sản xuất",
-                'tag' => "XSX",
-                'order' => 7,
-                'active' => true
-            ]
-        );
 
         //Role and Permission
         $permission[] = Permission::updateOrCreate([

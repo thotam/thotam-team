@@ -408,7 +408,7 @@ trait HasNhomTrait
      */
     public function getIsXsxQuanlyAttribute()
     {
-        $xsx_teams = Nhom::where("active", true)->where("phan_loai_id", 7)->get();
+        $xsx_teams = Nhom::where("active", true)->where("phan_loai_id", 1)->get();
 
         foreach ($this->quanly_of_nhoms as $nhom) {
             if ($xsx_teams->contains($nhom)) {
@@ -427,7 +427,7 @@ trait HasNhomTrait
      */
     public function getIsXsxThanhvienAttribute()
     {
-        $xsx_teams = Nhom::where("active", true)->where("phan_loai_id", 7)->get();
+        $xsx_teams = Nhom::where("active", true)->where("phan_loai_id", 1)->get();
 
         foreach ($this->thanhvien_of_nhoms as $nhom) {
             if ($xsx_teams->contains($nhom)) {
