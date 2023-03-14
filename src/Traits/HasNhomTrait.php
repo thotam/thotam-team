@@ -400,4 +400,42 @@ trait HasNhomTrait
 
         return false;
     }
+
+    /**
+     * getIsXsxQuanlyAttribute
+     *
+     * @return void
+     */
+    public function getIsXsxQuanlyAttribute()
+    {
+        $xsx_teams = Nhom::where("active", true)->where("phan_loai_id", 7)->get();
+
+        foreach ($this->quanly_of_nhoms as $nhom) {
+            if ($xsx_teams->contains($nhom)) {
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * getIsXsxThanhvienAttribute
+     *
+     * @return void
+     */
+    public function getIsXsxThanhvienAttribute()
+    {
+        $xsx_teams = Nhom::where("active", true)->where("phan_loai_id", 7)->get();
+
+        foreach ($this->thanhvien_of_nhoms as $nhom) {
+            if ($xsx_teams->contains($nhom)) {
+                return true;
+                break;
+            }
+        }
+
+        return false;
+    }
 }

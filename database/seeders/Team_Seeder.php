@@ -67,7 +67,16 @@ class Team_Seeder extends Seeder
             [
                 'name' => "Upharma",
                 'tag' => "U",
-                'order' => 4,
+                'order' => 6,
+                'active' => true
+            ]
+        );
+        PhanLoaiNhom::updateOrCreate(
+            ['id' => 7],
+            [
+                'name' => "Xưởng sản xuất",
+                'tag' => "XSX",
+                'order' => 7,
                 'active' => true
             ]
         );
